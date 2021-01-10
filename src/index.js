@@ -8,7 +8,6 @@ import App from './App';
 
 import './index.scss';
 
-console.log(store.getState());
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>

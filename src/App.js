@@ -1,16 +1,24 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import exios from 'axios';
 import './scss/app.scss';
+import { setPizzas } from './redux/actions/pizzas';
 import { Route } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Home from './pages/Home/Home';
 import Cart from './pages/Cart/Cart';
 
 function App() {
-  const [pizzas, setPizzas] = React.useState([]);
+  const dispatch = useDispatch();
+  // const state = useSelector(({ filters, pizzas }) => {
+  //   return {
+  //     sortBy: filters.sortBy,
+  //     items: pizzas.items,
+  //   };
+  // });
   React.useEffect(() => {
     exios.get('http://localhost:3000/db.json').then(({ data }) => {
-      setPizzas(data.pizzas);
+      dispatch(setPizzas(data.pizzas));
     });
 
     // fetch('http://localhost:3000/db.json')
@@ -18,13 +26,11 @@ function App() {
     //   .then((resp) => setPizzas(resp.pizzas));
   }, []);
 
-  // console.log(pizzas);
-
   return (
     <div className="wrapper">
       <Header />
       <div className="content">
-        <Route path="/" render={() => <Home items={pizzas} />} exact />
+        <Route path="/" component={Home} exact />
         <Route path="/cart" component={Cart} />
       </div>
     </div>
